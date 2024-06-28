@@ -54,6 +54,7 @@ do
 
 
             # haeckchen
+            echo "Ticking checkboxes"
             DISPLAY=:0 xdotool mousemove 694 405
             DISPLAY=:0 xdotool click 1
             sleep 1
@@ -75,6 +76,7 @@ do
 
             # messung starten
             sleep 5
+            echo "Starting measurement"
             DISPLAY=:0 xdotool mousemove 1091 668
             DISPLAY=:0 xdotool click 1
 
