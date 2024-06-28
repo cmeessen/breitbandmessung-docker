@@ -30,10 +30,10 @@ do
         current_minute=${current_minute#0}
 
         # Convert the start and end times to minutes for easier comparison
-        # 7:30 in minutes
-        start_time_minutes=$(( 7 * 60 + 30 ))
-        # 21:00 in minutes
-        end_time_minutes=$(( 21 * 60 ))
+        # 6:30 in minutes
+        start_time_minutes=$(( 6 * 60 + 30 ))
+        # 23:00 in minutes
+        end_time_minutes=$(( 23 * 60 ))
 
 
         # Convert the current time to minutes for comparison
@@ -50,24 +50,31 @@ do
             # messung durchfuehren
             DISPLAY=:0 xdotool mousemove 531 510
             DISPLAY=:0 xdotool click 1
+            sleep 5
 
 
             # haeckchen
             DISPLAY=:0 xdotool mousemove 694 405
             DISPLAY=:0 xdotool click 1
+            sleep 1
             DISPLAY=:0 xdotool mousemove 694 479
             DISPLAY=:0 xdotool click 1
+            sleep 1
             DISPLAY=:0 xdotool mousemove 694 551
             DISPLAY=:0 xdotool click 1
 
+            sleep 1
             DISPLAY=:0 xdotool mousemove 1169 405
             DISPLAY=:0 xdotool click 1
+            sleep 1
             DISPLAY=:0 xdotool mousemove 1169 479
             DISPLAY=:0 xdotool click 1
+            sleep 1
             DISPLAY=:0 xdotool mousemove 1169 551
             DISPLAY=:0 xdotool click 1
 
             # messung starten
+            sleep 5
             DISPLAY=:0 xdotool mousemove 1091 668
             DISPLAY=:0 xdotool click 1
 
@@ -78,7 +85,7 @@ do
 
         
         else
-            echo "NOT STARTING. The current time is outside the specified range of 07:30 and 21:00."
+            echo "NOT STARTING. The current time is outside the specified range of 06:30 and 23:00."
         fi
 
 
