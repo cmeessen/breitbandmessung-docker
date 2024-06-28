@@ -19,7 +19,7 @@ jobs:
       contents: read
       packages: write
 
-    if: github.repository == 'fabianbees/breitbandmessung-docker'
+    if: github.repository == 'cmeessen/breitbandmessung-docker'
 
     steps:
       - name: Checkout Dockerfile
