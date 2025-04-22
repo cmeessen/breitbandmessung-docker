@@ -34,7 +34,7 @@ ENV TZ=Europe/Berlin
 ENV DISPLAY_WIDTH "1280"
 ENV DISPLAY_HEIGHT "768"
 ENV TIME_START "13:00"
-ENV TIME_END "23:00"
+ENV TIME_END "22:30"
 
 
 VOLUME /config/xdg/config/Breitbandmessung
