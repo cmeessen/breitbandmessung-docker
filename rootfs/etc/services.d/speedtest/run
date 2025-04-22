@@ -15,6 +15,27 @@ time_to_minutes() {
 start_time_minutes=$(time_to_minutes $TIME_START)
 end_time_minutes=$(time_to_minutes $TIME_END)
 
+USE_HOMEASSISTANT=true
+let "time_between_retries=5*60"
+if [ -z ${HOMEASSISTANT_URL_DISABLE+set} ]; then
+    echo "HOMEASSISTANT_URL_DISABLE undefined."
+    USE_HOMEASSISTANT=false
+fi
+if [ -z ${HOMEASSISTANT_URL_ENABLE+set} ]; then
+    echo "HOMEASSISTANT_URL_ENABLE undefined."
+    USE_HOMEASSISTANT=false
+fi
+if [ -z ${HOMEASSISTANT_TOKEN+set} ]; then
+    echo "HOMEASSISTANT_TOKEN undefined."
+    USE_HOMEASSISTANT=false
+fi
+if [ "$USE_HOMEASSISTANT" == "true" ]; then
+    echo "Enabling Homeassistant requests."
+else
+    echo "Homeassistant requests disabled."
+    let "time_between_retries=6*60"
+fi
+
 while true
 do
 
@@ -50,6 +71,15 @@ do
         if (( current_time_minutes >= start_time_minutes && current_time_minutes <= end_time_minutes ))
         then
             echo "The current time is between $TIME_START and $TIME_END."
+
+            if [ "$USE_HOMEASSISTANT" == "true" ]; then
+                echo "Performing Homeassistant DISABLE request"
+                wget \
+                    --post-data="" \
+                    --header="Authorization: Bearer ${HOMEASSISTANT_TOKEN}" \
+                    ${HOMEASSISTANT_URL_DISABLE}
+            fi
+
             echo "Trying to start speedtest..."
 
             # messung durchfuehren
@@ -76,10 +106,20 @@ do
             DISPLAY=:0 xdotool mousemove 1091 668
             DISPLAY=:0 xdotool click 1
 
+            if [ "$USE_HOMEASSISTANT" == "true" ]; then
+                # Wait 1 minute for the measurement to complete
+                echo "Waiting 60 seconds to perform Homeassistant enable request"
+                sleep 60
+                echo "Performing Homeassistant-ENBALE request"
+                wget \
+                    --post-data="" \
+                    --header="Authorization: Bearer ${HOMEASSISTANT_TOKEN}" \
+                    ${HOMEASSISTANT_URL_ENABLE}
+            fi
 
             # wait 6 minutes
             echo "waiting 6 minutes..."
-            sleep 360
+            sleep $time_between_retries
 
 
         else
